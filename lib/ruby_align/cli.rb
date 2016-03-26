@@ -1,17 +1,16 @@
 class RubyAlign::CLI
 
-  def initialize(params)
+  def initialize params
+    @raw_text = RubyAlign::RawText.new
   end
 
-  def self.parse_args(*args)
+  def self.parse_args *args
     {}
   end
 
   def run
-    input = ''
-    while line = $stdin.gets
-      input << line
+    @raw_text.lines.each do |line|
+      puts line
     end
-    puts input
   end
 end
