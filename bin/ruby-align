@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH.push(File.expand_path('../../lib', __FILE__))
+require 'ruby_align'
+
+params = RubyAlign::CLI.parse_args(ARGV)
+RubyAlign::CLI.new(params).run
