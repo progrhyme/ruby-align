@@ -11,8 +11,7 @@ class RubyAlign::CLI
   end
 
   def run
-    @raw_text.lines.each do |line|
-      puts line
-    end
+    @parser.parse @raw_text.lines
+    @parser.output
   end
 end
