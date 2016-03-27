@@ -6,9 +6,12 @@ class RubyAlign::Matcher::BraceCount
   end
 
   def level_change str
-    up   = str.scan(@up_ptn).size
-    down = str.scan(@down_ptn).size
-    up - down
+    up     = str.scan(@up_ptn).size
+    down   = str.scan(@down_ptn).size
+    change = up - down
+    return  1 if change > 1
+    return -1 if change < -1
+    change
   end
 
   private
@@ -17,6 +20,6 @@ class RubyAlign::Matcher::BraceCount
     keywords = %w[class module def if unless case while until for loop begin BEGIN END do]
     pattern = keywords.join('|')
 
-    '(\(|{|\[|(\s|^)(%s)(\s|$)|\\\\s*$)' % [pattern]
+    '(\(|{|\[|(\s|^)(%s)(\s|$))' % [pattern]
   end
 end
