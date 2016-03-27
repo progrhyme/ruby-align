@@ -3,13 +3,14 @@ class RubyAlign::Parser
   # @param config [RubyAlign::Config]
   # @param logger [Logger]
   def initialize(config: nil, logger: nil)
-    @config = config
-    @logger = logger
-    @raw    = {}
-    @liner  = Line.new
+    @config     = config
+    @logger     = logger
+    @context    = RubyAlign::Context.new
+    @raw        = {}
+    @liner      = Line.new config.indent
     @paragraphs = []
-    @parsed = {}
-    @formed = {}
+    @parsed     = {}
+    @formed     = {}
   end
 
   # @param raw [RubyAlign::RawText]
@@ -19,7 +20,7 @@ class RubyAlign::Parser
 
     raw.lines.each_with_index do |line, idx|
       @raw[idx] = line
-      if parsed = parse_line(line)
+      if parsed = parse_line(line, @context)
         if   !cur_paragraph \
           or parsed.class != last_parsed.class \
           or cur_paragraph.end_idx < idx - 1
@@ -36,15 +37,19 @@ class RubyAlign::Parser
       end
     end
 
-    require 'pp'
-    pp @paragraphs
-
     @paragraphs.each do |pgrh|
       parsed_list = pgrh.list
       max_lhs_length = parsed_list.map {|p| p.lhs.size }.max
       parsed_list.each do |p|
-        fmt = "%s%-#{max_lhs_length}s %s %s"
-        @formed[p.index] = fmt % [p.spc, p.lhs, p.op, p.rhs]
+        lv  = @context.get_level(p.index)
+        spc = %q[ ] * @config.indent * lv
+        if p.op == ':'
+          fmt = "%s%-#{max_lhs_length + 3}s %s"
+          @formed[p.index] = fmt % [spc, p.lhs + p.op, p.rhs]
+        else
+          fmt = "%s%-#{max_lhs_length}s %s %s"
+          @formed[p.index] = fmt % [spc, p.lhs, p.op, p.rhs]
+        end
       end
     end
   end
@@ -61,8 +66,8 @@ class RubyAlign::Parser
 
   private
 
-  def parse_line line
-    @liner.parse line
+  def parse_line line, ctx
+    @liner.parse line, ctx
   end
 
   def new_paragraph index
