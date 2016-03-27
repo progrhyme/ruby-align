@@ -39,6 +39,6 @@ class RubyAlign::Matcher::HashPair
     op  = ':'
     rhs = '.*'
 
-    '^\s*(%s)(%s)\s*(%s)$' % [lhs, op, rhs]
+    '^(\s*)(%s)(%s)\s*(%s)$' % [lhs, op, rhs]
   end
 end
