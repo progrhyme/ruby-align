@@ -20,8 +20,8 @@ Here's an example:
 ```ruby
 ## before
 a = 1
-dddd = (1..3)
-bb = 20
+dddd ||= (1..3)
+bb -= 20
 e = { foo: 1, bar: 'Bar' }
 
 stash = {
@@ -31,10 +31,10 @@ stash = {
 }
 
 ## after
-a    = 1
-dddd = (1..3)
-bb   = 20
-e    = { foo: 1, bar: 'Bar' }
+a      = 1
+dddd ||= (1..3)
+bb    -= 20
+e      = { foo: 1, bar: 'Bar' }
 
 stash = {
   foo:      123,
