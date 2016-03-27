@@ -33,7 +33,6 @@ class RubyAlign::Parser
     new_buf = ''
     @raw.each_pair do |i, line|
       out_l = @formed[i] ? @formed[i] : line
-      #p "#{i} #{out_l}"
       new_buf << out_l + "\n"
     end
     new_buf
