@@ -1,9 +1,11 @@
 class RubyAlign::RawText
-  attr :lines
+  attr :content, :lines
 
   def initialize
-    @lines = []
+    @content = ''
+    @lines   = []
     while line = $stdin.gets
+      @content << line
       line.chomp!
       @lines << line
     end
