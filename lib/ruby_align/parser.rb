@@ -43,8 +43,8 @@ class RubyAlign::Parser
       parsed_list = pgrh.list
       max_lhs_length = parsed_list.map {|p| p.lhs.size }.max
       parsed_list.each do |p|
-        fmt = "%-#{max_lhs_length}s %s %s"
-        @formed[p.index] = fmt % [p.lhs, p.op, p.rhs]
+        fmt = "%s%-#{max_lhs_length}s %s %s"
+        @formed[p.index] = fmt % [p.spc, p.lhs, p.op, p.rhs]
       end
     end
   end

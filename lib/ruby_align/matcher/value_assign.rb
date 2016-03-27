@@ -10,7 +10,7 @@ class RubyAlign::Matcher::ValueAssign
   def gen_obj matched
     m_a = matched.to_a
     RubyAlign::Model::ValueAssign.new(
-      lhs: m_a[1], op: m_a[2], rhs: m_a[3],
+      spc: m_a[1], lhs: m_a[2], op: m_a[3], rhs: m_a[4],
     )
   end
 
@@ -21,6 +21,6 @@ class RubyAlign::Matcher::ValueAssign
     op  = '(?:\+|\|\|-)?=|<<'
     rhs = '.*[^\\\{\(]'
 
-    '^\s*(%s)\s*(%s)\s*(%s)$' % [lhs, op, rhs]
+    '^(\s*)(%s)\s*(%s)\s*(%s)$' % [lhs, op, rhs]
   end
 end
