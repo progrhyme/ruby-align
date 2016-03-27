@@ -3,6 +3,7 @@ module RubyAlign
   end
 end
 
+require 'logger'
 require 'toml'
 
 require_relative 'ruby_align/cli'

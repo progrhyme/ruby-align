@@ -1,7 +1,10 @@
 class RubyAlign::Parser
 
-  def initialize config
+  # @param config [RubyAlign::Config]
+  # @param logger [Logger]
+  def initialize(config: nil, logger: nil)
     @config = config
+    @logger = logger
     @raw    = {}
     @liner  = Line.new
     @parsed = {}
@@ -15,7 +18,7 @@ class RubyAlign::Parser
       @raw[idx] = line
       if parsed = parse_line(line)
         @parsed[idx] = parsed
-        #pp parsed
+        debug parsed.inspect
       end
     end
 
@@ -24,10 +27,6 @@ class RubyAlign::Parser
       fmt = "%-#{max_lhs_length}s %s %s"
       @formed[i] = fmt % [p.lhs, p.op, p.rhs]
     end
-  end
-
-  def parse_line line
-    @liner.parse line
   end
 
   def render_output
@@ -39,4 +38,16 @@ class RubyAlign::Parser
     end
     new_buf
   end
+
+  private
+
+  def parse_line line
+    @liner.parse line
+  end
+
+  def debug log
+    return unless @logger
+    @logger.debug log
+  end
+
 end
