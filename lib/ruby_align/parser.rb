@@ -41,8 +41,9 @@ class RubyAlign::Parser
     end
 
     @paragraphs.each do |pgrh|
-      parsed_list = pgrh.list
+      parsed_list    = pgrh.list
       max_lhs_length = parsed_list.map {|p| p.lhs.size }.max
+      max_op_length  = parsed_list.map {|p| p.op.size }.max
       parsed_list.each do |p|
         lv  = @context.get_level(p.index)
         spc = %q[ ] * @config.indent * lv
@@ -50,7 +51,7 @@ class RubyAlign::Parser
           fmt = "%s%-#{max_lhs_length + 3}s %s"
           @formed[p.index] = fmt % [spc, p.lhs + p.op, p.rhs]
         else
-          fmt = "%s%-#{max_lhs_length}s %s %s"
+          fmt = "%s%-#{max_lhs_length}s %#{max_op_length}s %s"
           @formed[p.index] = fmt % [spc, p.lhs, p.op, p.rhs]
         end
         debug '%d : %s' % [ lv, @formed[p.index] ]
@@ -59,7 +60,7 @@ class RubyAlign::Parser
   end
 
   def render_output
-    new_buf = ''
+    new_buf       = %q[]
     cur_paragraph = @paragraphs[0]
     @raw.each_pair do |i, line|
       out_l = @formed[i] ? @formed[i] : line
@@ -75,7 +76,7 @@ class RubyAlign::Parser
   end
 
   def new_paragraph index
-    prgh = RubyAlign::Paragraph.new index
+    prgh         = RubyAlign::Paragraph.new index
     @paragraphs << prgh
     prgh
   end
