@@ -25,7 +25,7 @@ class RubyAlign::CLI
 
   def gen_logger
     lg = Logger.new STDERR
-    lg.level = @config.log_level || 'DEBUG'
+    lg.level = @config.log_level || 'INFO'
     lg.progname  = [$0, ARGV].join(%q[ ])
     lg.formatter = proc do |level, date, prog, msg|
       log = msg.gsub(/\r/, '\r').gsub(/\n/, '\n')
