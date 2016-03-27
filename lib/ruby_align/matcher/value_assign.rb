@@ -17,7 +17,7 @@ class RubyAlign::Matcher::ValueAssign
   private
 
   def regexp_pattern
-    lhs = '[@$]?(?:\w[\w\.]*)?\w'
+    lhs = '(?:@{1,2}|\$)?(?:\w[\w\.]*)?\w'
     op  = '(?:\+|\|\||-)?=|<<'
     rhs = '[^\?]*(?! ? )[^\?]*'
 
