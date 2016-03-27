@@ -2,7 +2,7 @@ class RubyAlign::CLI
 
   def initialize params
     @config   = RubyAlign::Config.new
-    @logger   = gen_logger()
+    @logger   = gen_logger(params)
     @raw_text = RubyAlign::RawText.new(file: params['file'])
     @parser   = RubyAlign::Parser.new(config: @config, logger: @logger)
   end
@@ -11,6 +11,7 @@ class RubyAlign::CLI
     params = {}
     OptionParser.new do |opt|
       opt.on('-f', '--file=FILE') {|f| params['file'] = f }
+      opt.on('-d', '--debug')     {|f| params['debug'] = true }
       opt.parse! *args
     end
     params
@@ -23,9 +24,9 @@ class RubyAlign::CLI
 
   private
 
-  def gen_logger
-    lg = Logger.new STDERR
-    lg.level = @config.log_level || 'INFO'
+  def gen_logger params
+    lg           = Logger.new STDERR
+    lg.level     = params['debug'] ? 'DEBUG' : @config.log_level || 'INFO'
     lg.progname  = [$0, ARGV].join(%q[ ])
     lg.formatter = proc do |level, date, prog, msg|
       log = msg.gsub(/\r/, '\r').gsub(/\n/, '\n')
