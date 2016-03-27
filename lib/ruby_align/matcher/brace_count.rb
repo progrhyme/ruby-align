@@ -17,9 +17,9 @@ class RubyAlign::Matcher::BraceCount
   private
 
   def up_regexp_ptn
-    keywords = %w[class module def if unless case while until for loop begin BEGIN END do]
+    keywords = %w[class module def if unless case while until for loop begin BEGIN END]
     pattern = keywords.join('|')
 
-    '(\(|{|\[|(\s|^)(%s)(\s|$))' % [pattern]
+    '(\(|{|\[|^\s*(%s)(\s|$)|(\s|^)do($|\s\|[\w,]+\|))' % [pattern]
   end
 end
