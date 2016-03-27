@@ -9,6 +9,7 @@ require 'logger'
 require 'optparse'
 require 'toml'
 
+require_relative 'ruby_align/version'
 require_relative 'ruby_align/cli'
 require_relative 'ruby_align/config'
 require_relative 'ruby_align/context'
