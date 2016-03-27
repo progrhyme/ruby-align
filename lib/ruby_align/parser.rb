@@ -87,6 +87,10 @@ class RubyAlign::Parser
 
   def debug log
     return unless @logger
-    @logger.debug log.to_s
+    begin
+      @logger.debug log
+    rescue => e
+      warn e
+    end
   end
 end
