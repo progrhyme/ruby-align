@@ -11,4 +11,12 @@ class TestAlign
     $stdout  = STDOUT
     parsed
   end
+
+  def parse_file file
+    $stdout = StringIO.new
+    RubyAlign::CLI.new({'file' => file}).run
+    parsed = $stdout.string
+    $stdout  = STDOUT
+    parsed
+  end
 end
