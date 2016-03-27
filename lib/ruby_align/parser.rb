@@ -87,6 +87,6 @@ class RubyAlign::Parser
 
   def debug log
     return unless @logger
-    @logger.debug log
+    @logger.debug log.to_s
   end
 end
