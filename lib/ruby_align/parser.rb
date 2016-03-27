@@ -4,12 +4,13 @@ class RubyAlign::Parser
     @config  = config
     @raw     = {}
     @targets = {}
+    @parsed  = {}
   end
 
   # @param raw [RubyAlign::RawText]
   def parse raw
     raw.lines.each_with_index do |line, idx|
-      @raw[idx] = line
+      @raw[idx + 1] = line
     end
 
     require 'pp'
@@ -31,14 +32,20 @@ class RubyAlign::Parser
       p c_ast.expression.source
     end
 
-    #buf  = Parser::Source::Buffer.new('ruby-align')
-    #buf.raw_source = text
-    #pp buf
+    max_name_length = @targets.values.map {|t| t.name.size }.max
+    @targets.each_pair do |l, t|
+      fmt = "%-#{max_name_length}s %s %s"
+      @parsed[l] = fmt % [t.name.source, t.operator.source, t.value.source]
+    end
   end
 
-  def output
+  def render_output
+    new_buf = ''
     @raw.each_pair do |i, line|
-      puts line
+      out_l = @parsed[i] ? @parsed[i] : line
+      #p "#{i} #{out_l}"
+      new_buf << out_l + "\n"
     end
+    new_buf
   end
 end
