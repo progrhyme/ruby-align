@@ -17,13 +17,15 @@ class RubyAlign::Parser
   def parse raw
     last_parsed   = nil
     cur_paragraph = nil
+    prev_level    = nil
 
     raw.lines.each_with_index do |line, idx|
       @raw[idx] = line
       if parsed = parse_line(line, @context)
         if   !cur_paragraph \
           or parsed.class != last_parsed.class \
-          or cur_paragraph.end_idx < idx - 1
+          or cur_paragraph.end_idx < idx - 1 \
+          or @context.get_level(idx) != prev_level
 
           cur_paragraph = new_paragraph(idx)
         end
@@ -32,6 +34,7 @@ class RubyAlign::Parser
         @parsed[idx] = parsed
         cur_paragraph.append(parsed)
         last_parsed = parsed
+        prev_level  = @context.get_level(idx)
 
         debug parsed.inspect
       end
@@ -50,6 +53,7 @@ class RubyAlign::Parser
           fmt = "%s%-#{max_lhs_length}s %s %s"
           @formed[p.index] = fmt % [spc, p.lhs, p.op, p.rhs]
         end
+        debug '%d : %s' % [ lv, @formed[p.index] ]
       end
     end
   end
