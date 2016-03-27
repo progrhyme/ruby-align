@@ -1,48 +1,39 @@
 class RubyAlign::Parser
 
   def initialize config
-    @config  = config
-    @raw     = {}
-    @targets = {}
-    @parsed  = {}
+    @config = config
+    @raw    = {}
+    @liner  = Line.new
+    @parsed = {}
+    @formed = {}
   end
 
   # @param raw [RubyAlign::RawText]
   def parse raw
-    raw.lines.each_with_index do |line, idx|
-      @raw[idx + 1] = line
-    end
-
     require 'pp'
-    text = raw.content
-    ast  = Parser::CurrentRuby.parse(text).loc
-    ast.node.children.each do |c|
-      if ! [:lvasgn, :ivasgn, :cvasgn].include? c.type
-        p ':' + c.type.to_s + ' is not target type'
-        next
+    raw.lines.each_with_index do |line, idx|
+      @raw[idx] = line
+      if parsed = parse_line(line)
+        @parsed[idx] = parsed
+        #pp parsed
       end
-      c_ast = c.loc
-      if c_ast.expression.multi_lines?
-        p 'multi-lines found in ' + c_ast.expression.source
-        next
-      end
-      tgt = RubyAlign::Parser::Map.new(c_ast)
-      @targets[c_ast.line] = tgt
-      #pp c_ast
-      p c_ast.expression.source
     end
 
-    max_name_length = @targets.values.map {|t| t.name.size }.max
-    @targets.each_pair do |l, t|
-      fmt = "%-#{max_name_length}s %s %s"
-      @parsed[l] = fmt % [t.name.source, t.operator.source, t.value.source]
+    max_lhs_length = @parsed.values.map {|p| p.lhs.size }.max
+    @parsed.each_pair do |i, p|
+      fmt = "%-#{max_lhs_length}s %s %s"
+      @formed[i] = fmt % [p.lhs, p.op, p.rhs]
     end
+  end
+
+  def parse_line line
+    @liner.parse line
   end
 
   def render_output
     new_buf = ''
     @raw.each_pair do |i, line|
-      out_l = @parsed[i] ? @parsed[i] : line
+      out_l = @formed[i] ? @formed[i] : line
       #p "#{i} #{out_l}"
       new_buf << out_l + "\n"
     end
