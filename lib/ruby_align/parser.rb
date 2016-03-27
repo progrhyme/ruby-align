@@ -48,7 +48,11 @@ class RubyAlign::Parser
         lv  = @context.get_level(p.index)
         spc = %q[ ] * @config.indent * lv
         if p.op == ':'
-          fmt = "%s%-#{max_lhs_length + 3}s %s"
+          room = 0
+          if max_op_length > 1
+            room = max_op_length + 1
+          end
+          fmt = "%s%-#{max_lhs_length + room}s %s"
           @formed[p.index] = fmt % [spc, p.lhs + p.op, p.rhs]
         else
           fmt = "%s%-#{max_lhs_length}s %#{max_op_length}s %s"
