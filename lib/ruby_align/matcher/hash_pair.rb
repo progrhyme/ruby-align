@@ -37,7 +37,7 @@ class RubyAlign::Matcher::HashPair
   def sugared_sym_regexp_ptn
     lhs = '\w+'
     op  = ':'
-    rhs = '.*'
+    rhs = '(?:[^:].*)?'
 
     '^(\s*)(%s)(%s)\s*(%s)$' % [lhs, op, rhs]
   end
