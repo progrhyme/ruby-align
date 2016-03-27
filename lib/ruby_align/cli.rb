@@ -3,12 +3,17 @@ class RubyAlign::CLI
   def initialize params
     @config   = RubyAlign::Config.new
     @logger   = gen_logger()
-    @raw_text = RubyAlign::RawText.new
+    @raw_text = RubyAlign::RawText.new(file: params['file'])
     @parser   = RubyAlign::Parser.new(config: @config, logger: @logger)
   end
 
   def self.parse_args *args
-    {}
+    params = {}
+    OptionParser.new do |opt|
+      opt.on('-f', '--file=FILE') {|f| params['file'] = f }
+      opt.parse! *args
+    end
+    params
   end
 
   def run

@@ -6,6 +6,7 @@ module RubyAlign
 end
 
 require 'logger'
+require 'optparse'
 require 'toml'
 
 require_relative 'ruby_align/cli'
