@@ -70,6 +70,9 @@ Settings for other editors are welcome.
 This program might have bugs.  
 Please take a backup before you apply this to your code.
 
+For known issues, see the [issue list](https://github.com/key-amb/ruby-align/issues)
+in this project.
+
 # LICENSE
 
 The MIT License (MIT)
