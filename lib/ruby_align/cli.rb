@@ -7,12 +7,15 @@ class RubyAlign::CLI
     @parser   = RubyAlign::Parser.new(config: @config, logger: @logger)
   end
 
-  def self.parse_args *args
+  def self.parse_args args
     params = {}
     OptionParser.new do |opt|
       opt.on('-f', '--file=FILE') {|f| params['file'] = f }
       opt.on('-d', '--debug')     {|f| params['debug'] = true }
-      opt.parse! *args
+      opt.parse! args
+    end
+    if args[0]
+      params['file'] ||= args[0]
     end
     params
   end

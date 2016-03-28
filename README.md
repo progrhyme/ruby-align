@@ -5,6 +5,7 @@ A code formatter for Ruby to make alignment.
 # Usage
 
 ```
+ruby-align your_program.rb
 ruby-align --[f]ile=your_program.rb
 ```
 
