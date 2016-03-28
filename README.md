@@ -1,6 +1,6 @@
 # ruby-align [![Build Status](https://travis-ci.org/key-amb/ruby-align.svg?branch=master)](https://travis-ci.org/key-amb/ruby-align)
 
-A code formatter for Ruby.
+A code formatter for Ruby to make alignment.
 
 # Usage
 
