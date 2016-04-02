@@ -3,3 +3,9 @@ sh = {
   baar: 'Bar',
   Ba__Zzz: [],
 }
+
+sh2 = {
+  a: {},
+  b: 'foo',
+  c: %w/aaa bbb ccc/
+}
