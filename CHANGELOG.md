@@ -1,3 +1,9 @@
+## 0.1.2 (2016/4/2)
+
+Bug Fix:
+
+- Correctly applies indent against hash of symbol keys.
+
 ## 0.1.1 (2016/3/28)
 
 Improve:
