@@ -78,4 +78,4 @@ in this project.
 
 The MIT License (MIT)
 
-Copyright (c) 2016 YASUTAKE Kiyoshi
+Copyright (c) 2016 IKEDA Kiyoshi
